@@ -18,6 +18,7 @@ import { FaChevronDown } from "react-icons/fa";
 // import { problems } from "@/utils/problems";
 // import { Problem } from "@/utils/types/problem";
 import dynamic from "next/dynamic";
+import ImageUserTopbar from "./ImageUserTopbar";
 
 type TopbarProps = {
   problemPage?: boolean;
@@ -149,13 +150,16 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
           {user && (
             <div className="cursor-pointer group relative flex justify-center items-center">
               <Link href={"/MyProfile"}>
-                <Image
-                  src="/img-user.png"
+                {/* <Image
+                  src="/user-1.png"
                   alt="Avatar"
                   width={33}
                   height={33}
                   className="rounded-full flex items-center justify-center"
-                />
+                /> */}
+                <div className="w-[32px] h-[32px] rounded-full overflow-hidden  z-40">
+                  <ImageUserTopbar />
+                </div>
               </Link>
 
               <div

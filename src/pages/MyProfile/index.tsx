@@ -2,10 +2,17 @@ import React, { useState, ChangeEvent } from "react";
 import InformationUser from "./InformationUser";
 import Navbar from "@/component/Navbar/Navbar";
 import Liked from "./Liked";
-import Star from "./star";
+import Star from "./Star";
 import ProblemSolverUser from "./ProblemSolverUser";
+import { SlLike } from "react-icons/sl";
+import dynamic from "next/dynamic";
+import { storage } from "@/firebase/firebase"; // Make sure the path is correct
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const MyProfile: React.FC = () => {
+  
+ 
+
   const [selectedOption, setSelectedOption] = useState<string>("Liked");
 
   const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -29,8 +36,8 @@ const MyProfile: React.FC = () => {
                 checked={selectedOption === "Liked"}
                 onChange={handleRadioChange}
               />
-              <span className="tracking-widest peer-checked:bg-gradient-to-r peer-checked:from-[gray] peer-checked:to-[gray] peer-checked:text-white text-gray-200 p-2 rounded-lg transition duration-150 ease-in-out px-6">
-                Liked
+              <span className="flex gap-2 items-center justify-center tracking-widest peer-checked:bg-gradient-to-r peer-checked:from-[gray] peer-checked:to-[gray] peer-checked:text-white text-gray-200 p-2 rounded-lg transition duration-150 ease-in-out px-6">
+                Liked <SlLike className=" text-main-color-1 font-bold " />
               </span>
             </label>
             <label className="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer">
@@ -88,4 +95,4 @@ const MyProfile: React.FC = () => {
   );
 };
 
-export default MyProfile;
+export default dynamic(() => Promise.resolve(MyProfile), { ssr: false });
