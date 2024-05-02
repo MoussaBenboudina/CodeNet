@@ -7,6 +7,9 @@ import { useRouter } from "next/router";
 import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { Anybody } from "next/font/google";
+import Image from "next/image";
+import SignupByEmail from "./signupByEmail";
+import SignupByGitHub from "./signupByGithub";
 
 type SingupProps = {};
 
@@ -56,6 +59,7 @@ const Singup: React.FC<SingupProps> = () => {
         dislikedProblems: [],
         solvedProblems: [],
         starredProblems: [],
+        image: "user-1.png",
       };
       await setDoc(doc(firestore, "users", newUser.user.uid), userData);
       router.push("/");
@@ -72,21 +76,15 @@ const Singup: React.FC<SingupProps> = () => {
 
   return (
     <form
-      className="space-y-3 w-[500px] px-6 pb-4 flex justify-center flex-col items-center"
+      className="space-y-3 w-full px-6 pb-4 flex justify-center flex-col items-center"
       onSubmit={handleRegister}
     >
-      <h3 className="text-xl font-medium text-white">Register to LeetClone</h3>
-      <div className="w-full">
-        <button className="group relative flex w-full items-center justify-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-gray-900 focus:outline-none">
-          <img
-            src="/googleIcon.png"
-            width={22}
-            height={22}
-            alt=""
-            className="mx-2"
-          />
-          <span>Log in with Google</span>
-        </button>
+      <h3 className="text-xl font-medium text-white">Sign up to CodeNet</h3>
+      <div className="w-full flex flex-col gap-3 justify-center items-center ">
+        {/* <button className="group relative flex w-full items-center justify-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-sm font-semibold text-white hover:bg-gray-900 focus:outline-none"> */}
+        <SignupByEmail />
+        <SignupByGitHub />
+        {/* </button> */}
       </div>
       <div className="OR flex gap-2 w-full justify-center items-center py-2">
         <hr className="bg-gray-500 w-[calc(50%-10px)] h-[0.5px] my-1" />
@@ -106,12 +104,12 @@ const Singup: React.FC<SingupProps> = () => {
 
       <div className="w-full">
         <input
-          className="border-input flex w-full rounded-md border bg-white px-3 py-2 text-sm text-black ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-dark focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 h-10"
+          className="border-input flex w-full rounded-md border bg-white px-3 py-2 text-sm text-black  file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-dark focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 h-10"
           onChange={handleChangeInput}
           type="displayName"
           name="displayName"
           id="displayName"
-          placeholder="mohamed"
+          placeholder="Name"
         />
       </div>
       <div className="w-full">

@@ -34,5 +34,11 @@ export type DBProblem = {
   dislikes: number;
   order: number;
   videoId?: string;
+  solutions: any;
   link?: string;
+};
+
+export type DBsolutions = {
+  id: string;
+  solutionsUser: any;
 };

@@ -14,7 +14,9 @@ import {
   arrayUnion,
   collection,
   doc,
+  getDoc,
   getDocs,
+  getFirestore,
   orderBy,
   query,
   setDoc,
@@ -25,6 +27,7 @@ import Swal from "sweetalert2";
 import PreferenceNav from "../PreferenceNav/PreferenceNav";
 import MonacoEditor from "@monaco-editor/react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 type PlaygroundProps = {
   problem: Problem;
   setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
@@ -42,16 +45,19 @@ const Playground: React.FC<PlaygroundProps> = ({
   setSuccess,
   setSolved,
 }) => {
+  // console []
   const [activeTestCaseId, setActiveTestCaseId] = useState<number>(0);
   let [userCode, setUserCode] = useState<string>(problem.starterCode);
-  console.log("problem.starterCode" + userCode);
+  // console.log("problem.starterCode" + userCode);
   const [fontSize, setFontSize] = useLocalStorage("lcc-fontSize", "16px");
   const [settings, setSettings] = useState<ISettings>({
     fontSize: fontSize,
     settingsModalIsOpen: false,
     dropdownIsOpen: false,
   });
-
+  const [imgUser, setImgUser] = useState<String>("");
+  const [name, setName] = useState<String>("");
+  const [viewSolutions, setViewSolutions] = useState<boolean>(false);
   const [user] = useAuthState(auth);
   const {
     query: { pid },
@@ -67,13 +73,13 @@ const Playground: React.FC<PlaygroundProps> = ({
       return;
     }
     try {
-      // console.log("userCode 22" + userCode);
+      // console.log("userCode 1" + userCode);
       userCode = userCode.slice(userCode.indexOf(problem.starterFunctionName));
-      // console.log("usercode" + userCode);
+      // console.log("usercode 2" + userCode);
       const cb = new Function(`return ${userCode}`)();
       // console.log("cb" + cb);
       const handler = problems[pid as string].handlerFunction;
-      // console.log("cb" + cb);
+      // console.log("cb 2" + cb);
       if (typeof handler === "function") {
         const success = handler(cb);
         if (success) {
@@ -111,7 +117,11 @@ const Playground: React.FC<PlaygroundProps> = ({
           const solution = userCode;
           const userRef3 = doc(firestore, "solutions", problem.id);
           await updateDoc(userRef3, {
-            solutions: arrayUnion(solution),
+            solutions: arrayUnion({
+              solution: solution,
+              img: imgUser,
+              Name: name,
+            }),
           });
 
           // const userRef3 = doc(firestore, "solutions");
@@ -120,6 +130,7 @@ const Playground: React.FC<PlaygroundProps> = ({
           // });
 
           setSolved(true);
+          setViewSolutions(true);
           // setUserCode(problem.starterCode);
         }
       }
@@ -174,6 +185,34 @@ const Playground: React.FC<PlaygroundProps> = ({
   const Rest = () => {
     setUserCode(problem.starterCode);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!user) return; // Ensure user is not null before attempting to fetch
+      const db = getFirestore();
+      const docRef = doc(db, "users", user.uid); // Use user.uid directly
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const userData = docSnap.data();
+        if (userData.solutions) {
+          // const viewSol = userData.solutions.includes()
+          console.log(userData.solvedProblems.includes(problem.id));
+          console.log(userData.solvedProblems + " :: " + problem.id);
+          console.log(userData.solvedProblems.includes(problem.id));
+          setViewSolutions(userData.solvedProblems.includes(problem.id));
+          setImgUser(userData.image);
+          setName(userData.displayName);
+        } else {
+          console.log("No solutions found for this user.");
+        }
+      } else {
+        console.log("No such document!");
+      }
+    };
+
+    fetchData();
+  }, [user, problem.id ]);
+
   return (
     <div className="flex flex-col  bg-dark-color-2 relative overflow-x-hidden">
       <PreferenceNav
@@ -207,11 +246,22 @@ const Playground: React.FC<PlaygroundProps> = ({
         </div>
         <div className="w-full px-5 overflow-auto bg-dark-color-1">
           {/* testcase heading */}
-          <div className="flex h-10 items-center space-x-6">
-            <div className="relative flex h-full flex-col justify-center cursor-pointer">
-              <div className="text-sm font-medium leading-5 text-white">
+          <div className="flex h-10 items-center space-x-6 w-full">
+            <div className="relative flex h-full flex-col justify-center cursor-pointer w-full">
+              <div className="text-sm font-medium leading-5 text-white flex justify-between w-full ">
                 Testcases
+                <Link
+                  href={`/Solutions/${problem.id}`}
+                  className={`${
+                    !viewSolutions
+                      ? "pointer-events-none text-gray-600"
+                      : "pointer-events-auto text-green-600"
+                  }`}
+                >
+                  View Solutions
+                </Link>
               </div>
+
               <hr className="absolute bottom-0 h-0.5 w-full rounded-full border-none bg-white" />
             </div>
           </div>

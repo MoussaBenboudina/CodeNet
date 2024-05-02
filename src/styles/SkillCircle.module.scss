@@ -1,0 +1,40 @@
+.circleContainer {
+  position: relative;
+  width: 100px;
+  height: 100px;
+
+  .backgroundCircle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 4px solid #777; /* Background border color */
+  }
+
+  .progressCircle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 5px solid transparent;
+    mask-image: conic-gradient(from 0deg at 50% 50%, black 0deg, black 360deg);
+    transition: mask-image 0.5s ease-out;
+  }
+
+  .centerContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 24px;
+    color: orange;
+  }
+}

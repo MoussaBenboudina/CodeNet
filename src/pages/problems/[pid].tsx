@@ -21,7 +21,6 @@ const ProblemPage: React.FC<ProblemPageProps> = ({ problem }) => {
     <div>
       <Topbar problemPage />
       <Workspace problem={problem} />
-      {/* <Workspace proble/> */}
     </div>
   );
 };

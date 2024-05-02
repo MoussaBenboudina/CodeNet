@@ -9,6 +9,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/firebase";
 import { useRouter } from "next/router";
 import Cover from "@/component/HomePage/Cover";
+import Image from "next/image";
 type AuthProps = {};
 
 const Auth: React.FC<AuthProps> = () => {
@@ -94,7 +95,7 @@ const Auth: React.FC<AuthProps> = () => {
         </div>
         {!authModal.isOpen && (
           <div className="img">
-            <img src="mainIconsdark.svg" width={500} height={500} alt="" />
+            <Image src="mainIconsdark.svg" width={500} height={500} alt="" />
           </div>
         )}
       </div>

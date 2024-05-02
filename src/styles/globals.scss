@@ -390,3 +390,15 @@ code {
   align-items: center;
   cursor: pointer;
 }
+
+$main-color: #0bb39f;
+
+.radioProfil {
+  transition: 0.3s;
+}
+
+.radioProfil:hover {
+  color: var($main-color);
+}
+
+

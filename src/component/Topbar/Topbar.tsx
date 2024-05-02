@@ -1,6 +1,6 @@
 import { auth } from "@/firebase/firebase";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 // import Logout from "../Buttons/Logout";
 import { useSetRecoilState } from "recoil";
@@ -19,6 +19,8 @@ import { FaChevronDown } from "react-icons/fa";
 // import { Problem } from "@/utils/types/problem";
 import dynamic from "next/dynamic";
 import ImageUserTopbar from "./ImageUserTopbar";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
+import ImageUser from "@/pages/MyProfile/ImageUser";
 
 type TopbarProps = {
   problemPage?: boolean;
@@ -27,26 +29,26 @@ type TopbarProps = {
 const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
   const [user] = useAuthState(auth);
   const setAuthModalState = useSetRecoilState(authModalState);
-  // const router = useRouter();
 
-  // const handleProblemChange = (isForward: boolean) => {
-  // 	const { order } = problems[router.query.pid as string] as Problem;
-  // 	const direction = isForward ? 1 : -1;
-  // 	const nextProblemOrder = order + direction;
-  // 	const nextProblemKey = Object.keys(problems).find((key) => problems[key].order === nextProblemOrder);
+  const [image, setImage] = useState<string>("user-1.png");
 
-  // 	if (isForward && !nextProblemKey) {
-  // 		const firstProblemKey = Object.keys(problems).find((key) => problems[key].order === 1);
-  // 		router.push(`/problems/${firstProblemKey}`);
-  // 	} else if (!isForward && !nextProblemKey) {
-  // 		const lastProblemKey = Object.keys(problems).find(
-  // 			(key) => problems[key].order === Object.keys(problems).length
-  // 		);
-  // 		router.push(`/problems/${lastProblemKey}`);
-  // 	} else {
-  // 		router.push(`/problems/${nextProblemKey}`);
-  // 	}
-  // };
+  useEffect(() => {
+    // Fetch the image URL from Firestore when the component mounts or user changes
+    const fetchImage = async () => {
+      if (user) {
+        const db = getFirestore();
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists()) {
+          const userData = userSnap.data();
+          if (userData.image) setImage(userData.image);
+          else setImage("user-1.png"); // Use stored image or default
+        }
+      }
+    };
+
+    fetchImage();
+  }, [user]);
 
   return (
     <nav className=" flex h-[50px] w-full shrink-0 items-center px-12 pr-32 text-white h-22 bg-dark-color-1 relative shadow-2xl">
@@ -55,10 +57,14 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
           !problemPage ? "max-w-[1200px] mx-auto" : " bg-dark-color-1"
         }`}
       >
-        <Link href="/" className="h-[22px] flex-1">
-          <h2 className="text-xl">
+        <Link href="/" className="h-[22px] flex-1  flex justify-start">
+          {/* <h2 className="text-xl">
             Code<span className=" text-main-color-1">Net</span>
-          </h2>
+          </h2> */}
+          <div className="flex justify-center items-center gap-3">
+            <Image src="/Logo.png" alt="" width={38} height={38} />
+            <h2 className=" text-main-color-1 text-xl font-medium">CodeNet </h2>
+          </div>
         </Link>
 
         {problemPage && (
@@ -71,10 +77,10 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
             </div> */}
             <Link
               href="/"
-              className="flex items-center gap-2 font-medium max-w-[170px] text-dark-gray-8 cursor-pointer"
+              className="flex transition items-center gap-1 font-medium max-w-[170px] text-dark-gray-8 cursor-pointer hover:text-main-color-1"
             >
-              <div>
-                <BsList />
+              <div className="  ">
+                <BsList className="text-2xl" />
               </div>
               <p>Problem List</p>
             </Link>
@@ -118,24 +124,6 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
         )}
 
         <div className="flex items-center space-x-4 flex-1 justify-end">
-          <div>
-            {/* <a
-              href="https://www.buymeacoffee.com/burakorkmezz"
-              target="_blank"
-              rel="noreferrer"
-              className="bg-dark-fill-3 py-1.5 px-3 cursor-pointer rounded text-brand-orange hover:bg-dark-fill-2"
-            >
-              Premium
-            </a> */}
-            {/* <button className="brightness-200 w-32 h-12 dark:brightness-100 group hover:shadow-lg hover:shadow-yellow-700/60 transition ease-in-out hover:scale-105 p-1 rounded-xl bg-gradient-to-br from-yellow-800 via-yellow-600 to-yellow-800 hover:from-yellow-700 hover:via-yellow-800 hover:to-yellow-600">
-              <div className="px-1 py-2 backdrop-blur-xl bg-black/80 rounded-lg font-bold w-full h-full">
-                <div className="group-hover:scale-100 flex justify-center group-hover:text-yellow-500 text-yellow-600 ">
-                  Premium
-                </div>
-              </div>
-            </button> */}
-          </div>
-
           {!user && (
             <>
               <Link
@@ -147,18 +135,18 @@ const Topbar: React.FC<TopbarProps> = ({ problemPage }) => {
             </>
           )}
           {user && problemPage && <Timer />}
-          {user && (
+          {user && !problemPage && (
             <div className="cursor-pointer group relative flex justify-center items-center">
               <Link href={"/MyProfile"}>
-                {/* <Image
-                  src="/user-1.png"
+                {/* <img
+                  src={image}
                   alt="Avatar"
                   width={33}
                   height={33}
                   className="rounded-full flex items-center justify-center"
                 /> */}
                 <div className="w-[32px] h-[32px] rounded-full overflow-hidden  z-40">
-                  <ImageUserTopbar />
+                  <ImageUser image={image} />
                 </div>
               </Link>
 

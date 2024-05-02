@@ -4,6 +4,7 @@ import {
   AiOutlineFullscreenExit,
   AiOutlineSetting,
 } from "react-icons/ai";
+import { MdOutlineRestartAlt } from "react-icons/md";
 
 // import SettingsModal from "@/components/Modals/SettingsModal";
 import { ISettings } from "../Playground/Playground";
@@ -53,7 +54,7 @@ const PreferenceNav: React.FC<PreferenceNavProps> = ({
       <div className="flex items-center ">
         <button className="flex justify-center cursor-pointer items-center rounded focus:outline-none bg-dark-fill-3 text-dark-label-2 hover:bg-dark-fill-2 w-32 px-2 py-1.5 font-medium">
           <div className="flex items-center px-1">
-            <select className="text-xs text-label-2 dark:text-dark-label-2 bg-transparent w-28 text-center text-xl">
+            <select className=" text-label-2 dark:text-dark-label-2 bg-transparent w-28 text-center text-sm">
               <option
                 value="JavaScript"
                 className=" bg-dark-layer-2 w-full h-4"
@@ -76,7 +77,7 @@ const PreferenceNav: React.FC<PreferenceNavProps> = ({
 
       <div className="flex items-center m-2">
         <button className="preferenceBtn group text-dark-gray-6" onClick={Rest}>
-          rest
+          <MdOutlineRestartAlt />
         </button>
         <button
           className="preferenceBtn group"
@@ -84,8 +85,8 @@ const PreferenceNav: React.FC<PreferenceNavProps> = ({
             setSettings({ ...settings, settingsModalIsOpen: true })
           }
         >
-          <div className="h-4 w-4 text-dark-gray-6 font-bold text-lg">
-            <AiOutlineSetting />
+          <div className="h-4 w-4 text-dark-gray-6 font-bold text-xl">
+            <AiOutlineSetting  />
           </div>
           <div className="preferenceBtn-tooltip">Settings</div>
         </button>

@@ -71,17 +71,6 @@ function getListValues(head: LinkedList): number[] {
 }
 
 const starterCodeValidateBSTJS = `
-/**
-  javaScript
- * Definition for singly-linked list.
- * @param {number} val
- * @param {ListNode} next
- */
-function ListNode(val, next) {
-    this.val = (val === undefined ? 0 : val);
-    this.next = (next === undefined ? null : next);
-}
-// Do not edit function name
 function reverseLinkedList(head) {
     // Write your code here
 }`;

@@ -1,12 +1,12 @@
 import "@/styles/globals.scss";
 import "@/styles/PageHome.scss";
 import "@/styles/search.scss";
+import "@/styles/Footer.scss";
+
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { ThemeProvider } from "next-theme";
 import { RecoilRoot } from "recoil";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>

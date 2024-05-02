@@ -53,7 +53,7 @@ const Login: React.FC<LoginProps> = () => {
   }, [error]);
   return (
     <form
-      className="space-y-3 px-6 pb-4 w-[500px] flex justify-center items-center flex-col"
+      className="space-y-3 px-6 pb-4 w-full flex justify-center items-center flex-col"
       onSubmit={handleLogin}
     >
       <h3 className="text-xl font-medium text-white">Sign in to LeetClone</h3>

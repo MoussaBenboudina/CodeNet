@@ -29,26 +29,26 @@ const ProblemSolverUser = () => {
     };
 
     fetchData();
-  }, [user]); // Include user in the dependency array to re-run the effect when user changes
+  }, [user]);
 
   return (
     <>
       <div className="">
         {solutionsUser.map((solution: any, index) => (
           <div key={index} className=" w-full m-auto my-10 rounded-md">
-            <div className=" text-white bg-dark-layer-2 p-3 my-1 text-xl">
+            <div className=" text-white bg-dark-layer-2 p-3 my-1 text-xl rounded-lg">
               {solution.title}
             </div>
-            <div style={{ pointerEvents: "none" }}>
+            <div>
               <MonacoEditor
                 height="150px"
                 language="javascript"
                 theme="vs-dark"
                 value={solution.solution}
-                options={{
-                  readOnly: true,
-                  minimap: { enabled: false },
-                }}
+                // options={{
+                //   readOnly: true,
+                //   // minimap: { enabled: false },
+                // }}
               />
             </div>
           </div>
@@ -59,3 +59,5 @@ const ProblemSolverUser = () => {
 };
 
 export default ProblemSolverUser;
+
+

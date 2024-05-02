@@ -33,22 +33,22 @@ export default function Home() {
     dislikes: 0,
   });
 
-  // const handelInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setInputs({
-  //     ...inputs,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
+  const handelInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputs({
+      ...inputs,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-  // const handelSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   const newPorblem = {
-  //     ...inputs,
-  //     order: Number(inputs.order),
-  //   };
-  //   await setDoc(doc(firestore, "problems", inputs.id), newPorblem);
-  //   alert("saved to database");
-  // };
+  const handelSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const newPorblem = {
+      ...inputs,
+      order: Number(inputs.order),
+    };
+    await setDoc(doc(firestore, "problems", inputs.id), newPorblem);
+    alert("saved to database");
+  };
   const [searchTerm, setSearchTerm] = useState("");
   return (
     <>
@@ -90,18 +90,21 @@ export default function Home() {
                         <select
                           value={difficulty}
                           onChange={(e) => setDifficulty(e.target.value)}
-                          className={`bg-transparent`}
+                          className={`bg-transparent p-2`}
                         >
-                          <option value="All" className="bg-gray-800">
+                          <option value="All" className="bg-gray-800 p-22">
                             All
                           </option>
-                          <option value="Easy" className="bg-gray-800">
+                          <option
+                            value="Easy"
+                            className=" o text-green-500 h-20"
+                          >
                             Easy
                           </option>
-                          <option value="Medium" className="bg-gray-800">
+                          <option value="Medium" className="text-orange-500">
                             Medium
                           </option>
-                          <option value="Hard" className="bg-gray-800">
+                          <option value="Hard" className="text-red-500">
                             Hard
                           </option>
                         </select>
@@ -123,7 +126,7 @@ export default function Home() {
               searchTerm={searchTerm}
             />
           </table>
-          {/* <form
+          <form
             className="flex flex-col bg-orange-500 gap-3 w-[500px] m-auto mb-9 py-6 px-6"
             onSubmit={handelSubmit}
           >
@@ -170,7 +173,7 @@ export default function Home() {
               name="link"
             />
             <button className="bg-gray-500">Save to db</button>
-          </form> */}
+          </form>
         </main>
       )}
     </>

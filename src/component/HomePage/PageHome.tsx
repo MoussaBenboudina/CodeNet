@@ -18,6 +18,7 @@ import Skills from "./Skills";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import Footer from "./Footer";
 
 type HomePage = {};
 
@@ -85,9 +86,11 @@ const HomePage: React.FC<HomePage> = () => {
                 Join Discord
               </Link>
             </div>
-            <span className="text-gray-500  -mb-32 mt-40 text-xl">
-              Lots of developers all over the world and the company uses{" "}
-              <span className=" text-main-color-1">CodeNet</span>
+            <span className="text-gray-500  -mb-32 mt-40 text-xl flex  gap-4">
+              Lots of developers all over the world and the company uses
+              <span className=" text-main-color-1 flex gap-1">
+                <img src="Logo.png" width={32} height={32} /> CodeNet
+              </span>
             </span>
             {/* <Cover /> */}
           </>
@@ -160,6 +163,7 @@ const HomePage: React.FC<HomePage> = () => {
       <Section1 />
       <Section2 />
       <Skills />
+      <Footer />
       {/* <Encryption /> */}
 
       <Cover />
